@@ -11,16 +11,17 @@ const loadProfilePicture = async (req, res, next) => {
   };
 
   const loadCatPicture = async (req, res, next) => {
-    console.log(req.file);
-    const { filename } = req.file;
-      try {
-        return res.status(201).send(`<h2>Here is a picture of a cat:</h2><img src="${filename}" alt="Image"/>`);
-        
-      } catch (err) {
-        console.log(err, "Some error");
-        next(err);
-      }
-    };
+    const cats = req.files;
+    try {
+      res.status(201).send(
+       `<h2>This a picture of a cat:</h2>
+       ${cats.map(cat => `<img src="${cat.filename}" alt=”something”/><br />`)}`,
+     );
+   } catch (err) {
+     console.log(err);
+     next(err);
+   }
+ };
 
   module.exports = {
     loadProfilePicture,
